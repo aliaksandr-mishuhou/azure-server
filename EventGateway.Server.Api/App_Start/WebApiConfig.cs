@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Http;
+using EventGateway.Server.Api.Utils;
 
 namespace EventGateway.Server.Api
 {
@@ -20,6 +21,9 @@ namespace EventGateway.Server.Api
 
             var appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");
             config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
+
+            // extra raw request/response logger 
+            config.MessageHandlers.Add(new LogRequestResponseHandler());
         }
     }
 }

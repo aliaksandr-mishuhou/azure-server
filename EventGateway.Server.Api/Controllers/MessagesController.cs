@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -32,11 +31,11 @@ namespace EventGateway.Server.Api.Controllers
         {
             try
             {
-                Logger.Trace(m => m($"Processing new message: {message}"));
+                Logger.Debug(m => m($"Processing new message: {message}"));
 
-                await _messageProcessor.Process(message);
+                var result = await _messageProcessor.Process(message);
 
-                return new HttpResponseMessage(HttpStatusCode.Accepted);
+                return new HttpResponseMessage(result ? HttpStatusCode.Accepted : HttpStatusCode.InternalServerError);
             }
             catch (Exception ex)
             {
